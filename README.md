@@ -46,3 +46,18 @@ text and base image description.
   Storage, or we might just cache popular ones in-memory and perhaps
   demonstrate [https://github.com/golang/groupcache](`groupcache`).
   Let's see.
+
+
+## Running it
+
+Development mode:
+
+```console
+$ go get bygophers.com/go/memes/cmd/memes-webserver
+$ cat config.json
+{}
+$ memes-webserver config.json
+```
+
+It listens by default on `:8080` for production traffic, and
+`localhost:8081` for administrative and debug uses.
