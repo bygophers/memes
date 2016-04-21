@@ -11,7 +11,7 @@ import (
 	"bygophers.com/go/memes/caption/internal/approve"
 )
 
-func load(t *testing.T, name string) image.Image {
+func load(t testing.TB, name string) image.Image {
 	f, err := os.Open(filepath.Join("testdata", name))
 	if err != nil {
 		t.Fatalf("loading test image: %v", err)
@@ -37,5 +37,22 @@ func TestSimple(t *testing.T) {
 	}
 	if err := approve.Image(img); err != nil {
 		t.Fatalf("not approved: %v", err)
+	}
+}
+
+func BenchmarkCaption(b *testing.B) {
+	base := load(b, "chipmunk.jpg")
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		req := &caption.Caption{
+			Top:    "chipmunks gonna",
+			Bottom: "chip",
+		}
+		img, err := caption.Draw(base, req)
+		if err != nil {
+			b.Fatalf("caption: %v", err)
+		}
+		_ = img
 	}
 }
